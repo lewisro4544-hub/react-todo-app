@@ -21,6 +21,16 @@ form {
   justify-content: center;
   align-items: center;
 }
+form {
+  flex-direction: column;
+  padding: 0 1rem;
+}
+.form-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
 form input,
 form button {
   padding: 0.5rem;
@@ -53,8 +63,65 @@ select {
 }
 
 .select,
-.input {
-  margin: 1rem;
+.input,
+.input-meta,
+.search {
+  margin: 0.5rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.input-meta {
+  display: flex;
+  align-items: center;
+}
+
+.priority-select,
+.due-date-input,
+.search-input {
+  padding: 0.5rem;
+  font-size: 1.1rem;
+  font-family: "Poppins", sans-serif;
+  color: #ff6f47;
+  border: none;
+  background: white;
+  cursor: pointer;
+}
+
+.due-date-input {
+  cursor: text;
+  font-size: 1rem;
+}
+
+.search-input {
+  width: 14rem;
+  cursor: text;
+}
+
+.form-error {
+  color: #fff;
+  background: #d9534f;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin: 0.25rem 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Custom Select */
@@ -113,7 +180,10 @@ select {
 }
 
 .trash-btn,
-.complete-btn {
+.complete-btn,
+.edit-btn,
+.save-btn,
+.cancel-btn {
   background: #ff6f47;
   color: white;
   border: none;
@@ -124,12 +194,112 @@ select {
 .complete-btn {
   background: rgb(11, 212, 162);
 }
+.edit-btn,
+.save-btn {
+  background: #3178c6;
+}
+.cancel-btn {
+  background: #888;
+}
 .todo-item {
   padding: 0rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-text {
+  font-size: 1.1rem;
+}
+
+.todo-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+}
+
+.priority-badge {
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  color: white;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+.priority-high {
+  background: #d9534f;
+}
+.priority-medium {
+  background: #f0ad4e;
+}
+.priority-low {
+  background: #5bc0de;
+}
+
+.due-date {
+  color: #555;
+}
+.due-overdue {
+  color: #d9534f;
+  font-weight: bold;
+}
+.overdue-label {
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  background: #d9534f;
+  color: white;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+.todo.overdue {
+  border-left: 4px solid #d9534f;
+  background: #fff0f0;
+}
+
+.edit-form {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem;
+  flex-wrap: wrap;
+}
+.edit-form .edit-input {
+  flex: 1;
+  min-width: 8rem;
+  padding: 0.4rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+}
+.edit-form .edit-priority,
+.edit-form .edit-due-date {
+  padding: 0.4rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  background: white;
+}
+.edit-form button {
+  padding: 0.5rem 0.7rem;
+  font-size: 0.9rem;
+}
+
+.empty-list {
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1.1rem;
 }
 
 .fa-trash,
-.fa-check {
+.fa-check,
+.fa-edit,
+.fa-save,
+.fa-times,
+.fa-calendar-alt,
+.fa-plus-square {
   pointer-events: none;
 }
 
@@ -165,22 +335,32 @@ select {
     flex-wrap: wrap;
   }
   .todo-input {
-    width: 80%;
+    width: 70%;
   }
   .input {
     width: 100%;
+    display: flex;
+    justify-content: center;
   }
   form input,
   form button {
     padding: 0.7rem;
     font-size: 1.2rem;
   }
+  .search-input,
+  .priority-select,
+  .due-date-input {
+    font-size: 1rem;
+  }
   .todo-list {
     min-width: 70%;
-    max-width: 85%;
+    max-width: 90%;
     list-style: none;
   }
   .todo {
     font-size: 1rem;
+  }
+  .edit-form {
+    width: 100%;
   }
 }

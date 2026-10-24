@@ -8,7 +8,8 @@ import TodoList from "./components/TodoList";
 function App() {
   const [inputText, setInputText] = useState("");
   const [todos, setTodos] = useState([]);
-  const [status, setStatus] = useState("All");
+  const [status, setStatus] = useState("all");
+  const [searchText, setSearchText] = useState("");
   const [filteredTodos, setFilteredTodos] = useState([]);
 
   useEffect(() => {
@@ -19,22 +20,31 @@ function App() {
     filterHandler();
     saveLocalTodos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [todos, status]);
+  }, [todos, status, searchText]);
 
   const filterHandler = () => {
+    let result = todos;
     switch (status) {
       case "completed":
-        setFilteredTodos(todos.filter((todo) => todo.completed === true));
+        result = result.filter((todo) => todo.completed === true);
         break;
 
-      case "uncompleted":
-        setFilteredTodos(todos.filter((todo) => todo.completed === false));
+      case "active":
+        result = result.filter((todo) => todo.completed === false);
         break;
 
       default:
-        setFilteredTodos(todos);
         break;
     }
+
+    const query = searchText.trim().toLowerCase();
+    if (query !== "") {
+      result = result.filter((todo) =>
+        todo.text.toLowerCase().includes(query)
+      );
+    }
+
+    setFilteredTodos(result);
   };
 
   const saveLocalTodos = () => {
@@ -46,8 +56,20 @@ function App() {
     if (localStorage.getItem("todos") === null) {
       localStorage.setItem("todos", JSON.stringify([]));
     } else {
-      let localTodos = JSON.parse(localStorage.getItem("todos"));
-      setTodos(localTodos);
+      let localTodos = [];
+      try {
+        localTodos = JSON.parse(localStorage.getItem("todos")) || [];
+      } catch (e) {
+        localTodos = [];
+      }
+      // Migrate tasks saved before priority/dueDate existed
+      setTodos(
+        localTodos.map((todo) => ({
+          priority: "medium",
+          dueDate: null,
+          ...todo,
+        }))
+      );
     }
   };
 
@@ -63,6 +85,8 @@ function App() {
         inputText={inputText}
         setInputText={setInputText}
         setStatus={setStatus}
+        searchText={searchText}
+        setSearchText={setSearchText}
       />
 
       <TodoList
