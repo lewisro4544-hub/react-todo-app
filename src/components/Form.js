@@ -117,6 +117,9 @@ function Form({
             className="search-input"
             value={searchText}
             onChange={searchHandler}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") e.preventDefault();
+            }}
             type="search"
             placeholder="Search tasks..."
           />

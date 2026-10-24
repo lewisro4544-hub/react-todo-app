@@ -16,11 +16,26 @@ function App() {
     getLocalTodos();
   }, []);
 
+  // Keep this tab in sync when another tab updates saved todos
+  useEffect(() => {
+    const onStorage = (e) => {
+      if (e.key === "todos") getLocalTodos();
+    };
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     filterHandler();
-    saveLocalTodos();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [todos, status, searchText]);
+
+  // Persist only when the task list itself changes
+  useEffect(() => {
+    saveLocalTodos();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todos]);
 
   const filterHandler = () => {
     let result = todos;
